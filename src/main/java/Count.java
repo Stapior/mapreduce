@@ -7,10 +7,11 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Count implements WritableComparable<Count> {
-    IntWritable actor;
-    IntWritable director;
+    private IntWritable actor;
+    private IntWritable director;
 
     public Count() {
+        set(new IntWritable(0), new IntWritable(0));
         set(new IntWritable(0), new IntWritable(0));
     }
 
@@ -21,8 +22,8 @@ public class Count implements WritableComparable<Count> {
     public void set(IntWritable actor, IntWritable director) {
         this.actor = actor;
         this.director = director;
-
     }
+
 
     public void addCounts(Count count) {
         set(new IntWritable(actor.get() + count.getActor().get()),
@@ -60,10 +61,18 @@ public class Count implements WritableComparable<Count> {
         director.write(dataOutput);
     }
 
+
+
     @Override
     public void readFields(DataInput dataInput) throws IOException {
         actor.readFields(dataInput);
         director.readFields(dataInput);
+    }
+
+    @Override
+    public String toString() {
+        return  actor.toString() +
+                " " + director.toString() ;
     }
 
     @Override

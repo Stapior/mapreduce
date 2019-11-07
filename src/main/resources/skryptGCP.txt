@@ -1,0 +1,107 @@
+/URUCHOMIENIE KLASTRA
+ 
+ gcloud beta dataproc clusters create cluster132319  \
+--enable-component-gateway --bucket big_data_132319 \
+--region europe-west3 --subnet default --zone europe-west3-c \
+--master-machine-type n1-standard-2 --master-boot-disk-size 50 \
+--num-workers 2 \
+--worker-machine-type n1-standard-2 --worker-boot-disk-size 50 \
+--image-version 1.3-deb9 \
+--optional-components ANACONDA,JUPYTER,ZEPPELIN \
+--project bigdata-255307 --max-age=2h
+
+hadoop fs -mkdir -p input
+hdfs dfs -cp gs://big_data_132319/projekt/small.*  ./input
+gsutil cp gs://big_data_132319/projekt/mapreduce-1.0-SNAPSHOT.jar  ./
+hadoop jar ./mapreduce-1.0-SNAPSHOT.jar input output
+
+
+    6  hadoop fs -mkdir -p labs/hadoop/mapreduce/input
+    7  hadoop fs -ls labs/hadoop/mapreduce/input
+    8  hadoop fs -ls labs/hadoop/mapreduce
+    9  hadoop fs -ls 
+   10  hadoop fs -cp gs://big_data_132319/
+   11  hadoop fs -cp gs://big_data_132319/ ./
+   12  hadoop fs -copyToLocal gs://
+   13  hdfs dfs -cp gs://big_data_132319/project/*  <hdfs path>
+   14  hdfs dfs -cp gs://big_data_132319/project/*  ./
+   15  hdfs dfs -cp gs://big_data_132319/project  ./
+   16  hdfs dfs -cp gs://big_data_132319/projekt/*  ./
+   17  hdfs dfs -ls
+   18  hdfs dfs -mkdir ./output
+   19  hdfs dfs -ls
+   20  hadoop jar mapreduce-1.0-SNAPSHOT.jar persons ./  ./output
+   21  hadoop jar ./mapreduce-1.0-SNAPSHOT.jar persons ./  ./output
+   22* hadoop fs -ls ./
+   23  hadoop jar gs://big_data_132319/projekt/mapreduce-1.0-SNAPSHOT.jar persons ./  ./output
+   24  hadoop jar /big_data_132319/projekt/mapreduce-1.0-SNAPSHOT.jar persons ./  ./output
+   25  hadoop jar gs://big_data_132319/projekt/mapreduce-1.0-SNAPSHOT.jar persons ./  ./output
+   26  ls
+   27  ls -al
+   28  mount gs://big_data_132319
+   29  hadoop jar ./mapreduce-1.0-SNAPSHOT.jar persons ./  ./output
+   30  hadoop fs -ls
+   31  hadoop fs -pwd
+   32  hadoop fs -ls
+    33  gsutil cp gs://big_data_132319/projekt/* .
+   34  hadoop jar ./mapreduce-1.0-SNAPSHOT.jar persons ./  ./output
+   35  gsutil cp gs://big_data_132319/projekt/* .
+   36  hadoop jar ./mapreduce-1.0-SNAPSHOT.jar persons ./  ./output
+   37  gsutil cp gs://big_data_132319/projekt/mapreduce-1.0-SNAPSHOT.jar  .
+   38  hadoop jar ./mapreduce-1.0-SNAPSHOT.jar persons ./  ./output
+   39  gsutil cp gs://big_data_132319/projekt/mapreduce-1.0-SNAPSHOT.jar  .
+   40  hadoop jar ./mapreduce-1.0-SNAPSHOT.jar persons ./  ./output
+   41  gsutil cp gs://big_data_132319/projekt/mapreduce-1.0-SNAPSHOT.jar  .
+   42  hadoop jar ./mapreduce-1.0-SNAPSHOT.jar persons ./  ./output
+   43  hadoop jar ./mapreduce-1.0-SNAPSHOT.jar persons ./inout  ./output
+   44  hadoop jar ./mapreduce-1.0-SNAPSHOT.jar persons ./  output
+   45  hadoop fs -ls
+   46  hadoop fs -mkdir output
+   47  hadoop fs -mkdir input
+   48  hadoop fs -mv small.tsv intpu/small.tsv
+   49  hadoop fs -mv small.tsv intput/small.tsv
+   50  hadoop fs -mv small.tsv intput/
+   51  hadoop fs -ls
+   52  hadoop fs -mv small.tsv intput
+   53  hadoop fs -mv small.tsv input/small.tsv
+   54  hadoop fs -mv small.tsv input
+   55  hdfs dfs -mv small.tsv input/small.tsv
+   56  hdfs dfs -mv ./small.tsv input/small.tsv
+   57  hdfs dfs -ls
+   58  hdfs dfs -mv intput/small.tsv input/small.tsv
+   66  hdfs dfs -cp gs://big_data_132319/projekt/small.tsv  ./input
+   67  hadoop jar ./mapreduce-1.0-SNAPSHOT.jar persons ./input  ./output
+   68  hdfs dfs -rm ./output
+   69  hdfs dfs -rm -r  ./output
+   70  hadoop jar ./mapreduce-1.0-SNAPSHOT.jar persons ./input  ./output
+   71  hadoop jar ./mapreduce-1.0-SNAPSHOT.jar persons input  output
+   72  hdfs dfs -ls
+   73  hadoop fs -ls
+   74  hadoop fs -rm -r intput
+   75  hadoop jar ./mapreduce-1.0-SNAPSHOT.jar persons input  output
+   76  hadoop jar ./mapreduce-1.0-SNAPSHOT.jar  input  output
+   77  gsutil cp gs://big_data_132319/projekt/mapreduce-1.0-SNAPSHOT.jar  .
+   78  hadoop jar ./mapreduce-1.0-SNAPSHOT.jar  input  output
+   79  hadoop fs -rm -r output
+   80  hadoop jar ./mapreduce-1.0-SNAPSHOT.jar  input  output
+   81  hadoop fs -ls output
+   82  hdsf -cat output
+   83  hdsf dfs -cat output
+   84  hdfs  dfs -cat output
+   85  hdfs  dfs -cat -r  output
+   86  hdfs  dfs -cat -r  output/part-r-00001
+   87  hadoop fs  -cat -r  output/part-r-00001
+   88  hadoop fs -cat output/part-r-00000
+   89  hadoop fs -cat output/part-r-00001
+   90  hadoop fs -cat output/part-r-00002
+   91  hadoop fs -cat output/part-r-00003
+   92  gsutil cp gs://big_data_132319/projekt/mapreduce-1.0-SNAPSHOT.jar  .
+   93  hdfs dfs -rm ./output
+   94  hdfs dfs -rm -r ./output
+   95  hadoop jar ./mapreduce-1.0-SNAPSHOT.jar  input  output
+   96  hadoop fs -cat output/part-r-00001
+   98  hdfs dfs -rm -r ./output
+   99  gsutil cp gs://big_data_132319/projekt/mapreduce-1.0-SNAPSHOT.jar  .
+   100  hadoop jar ./mapreduce-1.0-SNAPSHOT.jar  input  output
+  109  hdfs dfs -rm -r ./output
+  110  gsutil cp gs://big_data_132319/projekt/mapreduce-1.0-SNAPSHOT.jar  .

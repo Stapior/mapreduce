@@ -1,3 +1,4 @@
 PersonsMapReduce$Map.class
-PersonsMapReduce$Reduce.class
+Count.class
 PersonsMapReduce.class
+PersonsMapReduce$Reduce.class

@@ -1,5 +1,6 @@
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -17,51 +18,39 @@ public class PersonsMapReduce {
 
 
     public static class Map extends Mapper<LongWritable, Text, Text, Count> {
-        private final static String actor = "1\t0";
-        private final static String director = "0\t1";
-        private final static String another = "0\t0";
         private Text resultKey = new Text();
 
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-            try {
+
                 if (key.get() == 0) {
                     return;
                 }
                 String line = value.toString();
                 String[] tokens = line.split("\t");
-                String result = another;
-                if (tokens[3].equals("actor")) {
-                    result = actor;
-                }
-                if (tokens[3].equals("director")) {
-                    result = director;
-                }
                 resultKey.set(tokens[2]);
-                context.write(resultKey, new Count());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                if (tokens[3].equals("actor")) {
+                    context.write(resultKey, new Count(1, 0));
+                }else  if (tokens[3].equals("director")){
+                    context.write(resultKey, new Count(0, 1));
+                }else {
+                    context.write(resultKey, new Count(0,0));
+                }
+
         }
     }
 
     public static class Reduce extends Reducer<Text, Count, Text, Count> {
-
-        public void reduce(Text key, Iterable<Text> values, Context context) {
+        @Override
+        public void reduce(Text key, Iterable<Count> values, Context context) {
             try {
-                int sum = 0;
-                int sum2 = 0;
-                for (Text val : values) {
+                Count result = new Count();
+                for (Count count : values) {
                     try {
-                        String value = val.toString();
-                        String[] counts = value.split("\t");
-                        sum += Integer.getInteger(counts[0]);
-                        sum2 += Integer.getInteger(counts[1]);
+                        result.addCounts(count);
                     } catch (Exception e) {
                     }
-
                 }
-                String result = sum + "\t" + sum2;
-                context.write(key, new Count());
+                context.write(key, result);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -75,10 +64,11 @@ public class PersonsMapReduce {
 
         job.setJarByClass(PersonsMapReduce.class);
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(Text.class);
+        job.setOutputValueClass(Count.class);
 
         job.setMapperClass(Map.class);
         job.setReducerClass(Reduce.class);
+        job.setCombinerClass(Reduce.class);
 
         job.setInputFormatClass(TextInputFormat.class);
         job.setOutputFormatClass(TextOutputFormat.class);
