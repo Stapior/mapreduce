@@ -12,7 +12,6 @@ public class Count implements WritableComparable<Count> {
 
     public Count() {
         set(new IntWritable(0), new IntWritable(0));
-        set(new IntWritable(0), new IntWritable(0));
     }
 
     public Count(int actor, int director) {
@@ -26,8 +25,8 @@ public class Count implements WritableComparable<Count> {
 
 
     public void addCounts(Count count) {
-        set(new IntWritable(actor.get() + count.getActor().get()),
-                new IntWritable(director.get() + count.getDirector().get()));
+        actor.set(actor.get() + count.getActor().get());
+        director.set(director.get() + count.getDirector().get());
     }
 
     public IntWritable getActor() {

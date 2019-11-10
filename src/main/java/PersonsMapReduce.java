@@ -18,6 +18,9 @@ public class PersonsMapReduce {
 
     public static class Map extends Mapper<LongWritable, Text, Text, Count> {
         private Text resultKey = new Text();
+        private Count actor =  new Count(1, 0);
+        private Count director = new Count(0, 1);
+        private Count other = new Count(0,0);
 
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
              try {
@@ -29,11 +32,11 @@ public class PersonsMapReduce {
                  String[] tokens = line.split("\t");
                  resultKey.set(tokens[2]);
                  if (tokens[3].equals("actor")) {
-                     context.write(resultKey, new Count(1, 0));
+                     context.write(resultKey,actor);
                  }else  if (tokens[3].equals("director")){
-                     context.write(resultKey, new Count(0, 1));
+                     context.write(resultKey, director);
                  }else {
-                     context.write(resultKey, new Count(0,0));
+                     context.write(resultKey, other);
                  }
              }catch (Exception e){
                  e.printStackTrace();
