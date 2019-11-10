@@ -1,0 +1,10 @@
+#!/bin/bash
+hadoop fs -rm -r persons
+hadoop fs -mkdir -p persons/mapreduce/input
+hadoop fs -mkdir -p persons/pig
+hadoop fs -copyFromLocal ./title.principals.tsv persons/mapreduce/input
+hadoop fs -copyFromLocal ./name.basics.tsv persons/pig
+hadoop jar ./mapreduce-1.0-SNAPSHOT.jar persons/mapreduce/input persons/mapreduce/output
+pig ./personsScriptPig.pig
+hadoop fs -copyToLocal ./persons_result
+cat ./persons_result/*

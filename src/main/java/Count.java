@@ -72,7 +72,7 @@ public class Count implements WritableComparable<Count> {
     @Override
     public String toString() {
         return  actor.toString() +
-                " " + director.toString() ;
+                "\t" + director.toString() ;
     }
 
     @Override

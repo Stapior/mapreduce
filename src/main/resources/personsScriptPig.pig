@@ -1,0 +1,16 @@
+title = LOAD 'persons/mapreduce/output' USING PigStorage('\t') as (id:chararray, actor: int, director: int);
+names = LOAD 'persons/pig' USING PigStorage('\t') as (id:chararray, name:chararray, birthYear: int, deathYear:int, primaryProffesion:chararray, titles:chararray);
+ranked_names = RANK names;
+raw_names = FILTER ranked_names BY $0 > 1;
+projected_names = FOREACH raw_names GENERATE id, name, primaryProffesion as proffesions;
+title_with_name = JOIN title by id , projected_names by id;
+actors = FILTER title_with_name by (projected_names::proffesions matches '.*actor.*' or projected_names::proffesions matches '.*actress.*' );
+directors = FILTER title_with_name by (projected_names::proffesions matches '.*director.*');
+ranked_actors = RANK actors by title::actor desc;
+ranked_directors = RANK directors by title::director desc;
+top_directors = FILTER ranked_directors by $0 < 4;
+top_actors = FILTER ranked_actors by $0 < 4;
+final_actors = FOREACH top_actors GENERATE projected_names::name as primaryName, 'actor' as role, title::actor as movies;
+final_directors = FOREACH top_directors GENERATE projected_names::name as primaryName, 'director' as role, title::director as movies;
+result  = UNION final_actors, final_directors;
+STORE result INTO 'persons_result' USING JsonStorage();

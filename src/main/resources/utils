@@ -1,5 +1,5 @@
 /URUCHOMIENIE KLASTRA
- 
+
  gcloud beta dataproc clusters create cluster132319  \
 --enable-component-gateway --bucket big_data_132319 \
 --region europe-west3 --subnet default --zone europe-west3-c \
@@ -8,18 +8,19 @@
 --worker-machine-type n1-standard-2 --worker-boot-disk-size 50 \
 --image-version 1.3-deb9 \
 --optional-components ANACONDA,JUPYTER,ZEPPELIN \
---project bigdata-255307 --max-age=2h
+--project bigdata-255307 --max-age=5h
 
 hadoop fs -mkdir -p input
 hdfs dfs -cp gs://big_data_132319/projekt/small.*  ./input
 gsutil cp gs://big_data_132319/projekt/mapreduce-1.0-SNAPSHOT.jar  ./
 hadoop jar ./mapreduce-1.0-SNAPSHOT.jar input output
+###################################################################
 
 
     6  hadoop fs -mkdir -p labs/hadoop/mapreduce/input
     7  hadoop fs -ls labs/hadoop/mapreduce/input
     8  hadoop fs -ls labs/hadoop/mapreduce
-    9  hadoop fs -ls 
+    9  hadoop fs -ls
    10  hadoop fs -cp gs://big_data_132319/
    11  hadoop fs -cp gs://big_data_132319/ ./
    12  hadoop fs -copyToLocal gs://

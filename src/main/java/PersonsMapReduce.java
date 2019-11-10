@@ -1,6 +1,5 @@
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -21,21 +20,24 @@ public class PersonsMapReduce {
         private Text resultKey = new Text();
 
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+             try {
 
-                if (key.get() == 0) {
-                    return;
-                }
-                String line = value.toString();
-                String[] tokens = line.split("\t");
-                resultKey.set(tokens[2]);
-                if (tokens[3].equals("actor")) {
-                    context.write(resultKey, new Count(1, 0));
-                }else  if (tokens[3].equals("director")){
-                    context.write(resultKey, new Count(0, 1));
-                }else {
-                    context.write(resultKey, new Count(0,0));
-                }
-
+                 if (key.get() == 0) {
+                     return;
+                 }
+                 String line = value.toString();
+                 String[] tokens = line.split("\t");
+                 resultKey.set(tokens[2]);
+                 if (tokens[3].equals("actor")) {
+                     context.write(resultKey, new Count(1, 0));
+                 }else  if (tokens[3].equals("director")){
+                     context.write(resultKey, new Count(0, 1));
+                 }else {
+                     context.write(resultKey, new Count(0,0));
+                 }
+             }catch (Exception e){
+                 e.printStackTrace();
+             }
         }
     }
 
@@ -60,7 +62,7 @@ public class PersonsMapReduce {
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
 
-        Job job = new Job(conf, "persons");
+        Job job = new Job(conf, "Persons");
 
         job.setJarByClass(PersonsMapReduce.class);
         job.setOutputKeyClass(Text.class);
